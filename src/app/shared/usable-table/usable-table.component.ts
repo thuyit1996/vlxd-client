@@ -23,8 +23,6 @@ export class UsableTableComponent implements OnInit {
   constructor(private service: SmartTableData) {
     const data = this.service.getData();
     this.source.load(data);
-    console.log(this.tableSetting);
-
   }
 
   ngOnInit() {
