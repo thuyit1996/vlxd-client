@@ -1,4 +1,5 @@
 export const TABLE_NAME = 'Danh sách mặt hàng';
+export const MESSAGE_CONFIRM = 'Xóa sản phầm này nhé ?';
 export const productTypeSetting = {
   pager: {
     perPage: 5

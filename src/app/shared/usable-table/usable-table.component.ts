@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../@core/data/smart-table';
 
@@ -16,6 +16,7 @@ export class UsableTableComponent implements OnInit {
   @Input('tableName') tableName: string = '';
   @Input('tableSetting') tableSetting: ITable;
   @Input('productData') productData: any[] = [];
+  @Output() deleteRow = new EventEmitter();
 
 
 
@@ -28,12 +29,9 @@ export class UsableTableComponent implements OnInit {
   ngOnInit() {
   }
 
-  onDeleteConfirm(event: any): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
+  $usageTable_onDeleteConfirm(event: any): void {
+    const rowId = event?.data?._id;
+    this.deleteRow.emit(rowId);
   }
 
 }
