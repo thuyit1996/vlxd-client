@@ -4,6 +4,9 @@ import { ProductTypeComponent } from './product-type.component';
 import { ProductTypeListComponent } from './product-type-list/product-type-list.component';
 import { ProductTypeModuleRouting } from './product-type-routing.module';
 import { SharedModule } from '../../shared/shared.module';
+import { ThemeModule } from '../../@theme/theme.module';
+import { NbCardModule } from '@nebular/theme';
+import { UsageTableModule } from '../../shared/usable-table/usage-table.module';
 
 
 
@@ -12,7 +15,10 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     ProductTypeModuleRouting,
-    SharedModule
+    SharedModule,
+    ThemeModule,
+    NbCardModule,
+    UsageTableModule
   ]
 })
 export class ProductTypeModule { }
