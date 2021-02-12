@@ -54,5 +54,5 @@ const handleSuccess = (response: any): any => {
 
 
 const handleError = (response: any): any => {
-  return response?.body?.message || 'Có lỗi xảy ra, vui lòng thử lại sau'
+  return response?.error?.message || 'Có lỗi xảy ra, vui lòng thử lại sau'
 }

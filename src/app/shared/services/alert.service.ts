@@ -14,7 +14,6 @@ export class AlertService extends IAlertService {
       icon: 'success',
       title: message,
       showConfirmButton: false,
-      timer: 1500
     })
   }
 

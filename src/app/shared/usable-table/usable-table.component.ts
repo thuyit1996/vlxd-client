@@ -17,6 +17,7 @@ export class UsableTableComponent implements OnInit {
   @Input('tableSetting') tableSetting: ITable;
   @Input('productData') productData: any[] = [];
   @Output() deleteRow = new EventEmitter();
+  @Output() editRow = new EventEmitter();
 
 
 
@@ -29,9 +30,14 @@ export class UsableTableComponent implements OnInit {
   ngOnInit() {
   }
 
-  $usageTable_onDeleteConfirm(event: any): void {
+  $usageTable_onDelete(event: any): void {
     const rowId = event?.data?._id;
     this.deleteRow.emit(rowId);
+  }
+
+  $usageTable_onEdit(event) {
+    const rowId = event?.data?._id;
+    this.editRow.emit(rowId);
   }
 
 }

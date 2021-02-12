@@ -1,4 +1,5 @@
 <ngx-usable-table [tableName]="tableName" [tableSetting]="productSetting" [productData]="productData"
-  (deleteRow)="$productTypeList_deleteRow($event)">
-
+  (deleteRow)="$productTypeList_deleteRow($event)" (editRow)="$productTypeList_editRow($event)">
 </ngx-usable-table>
+<ngx-modal [modalActionType]="modalActionType" [modalHeader]="modalHeader">
+</ngx-modal>

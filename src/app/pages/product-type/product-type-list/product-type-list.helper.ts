@@ -1,9 +1,13 @@
 export const TABLE_NAME = 'Danh sách mặt hàng';
 export const MESSAGE_CONFIRM = 'Xóa sản phầm này nhé ?';
 export const productTypeSetting = {
+  actions: {
+    add: false,
+  },
   pager: {
     perPage: 5
   },
+  mode: 'external',
   add: {
     addButtonContent: '<i class="nb-plus"></i>',
     createButtonContent: '<i class="nb-checkmark"></i>',
@@ -13,13 +17,14 @@ export const productTypeSetting = {
     editButtonContent: '<i class="nb-edit"></i>',
     saveButtonContent: '<i class="nb-checkmark"></i>',
     cancelButtonContent: '<i class="nb-close"></i>',
+
   },
   delete: {
     deleteButtonContent: '<i class="nb-trash"></i>',
     confirmDelete: true,
   },
   columns: {
-    id: {
+    stt: {
       title: 'STT',
       type: 'number',
     },
