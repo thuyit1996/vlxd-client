@@ -7,10 +7,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { ThemeModule } from '../../@theme/theme.module';
 import { NbCardModule } from '@nebular/theme';
 import { UsageTableModule } from '../../shared/usable-table/usage-table.module';
-import { ModalModule } from '../../shared/modal/modal.module';
-
-
-
 @NgModule({
   declarations: [ProductTypeComponent, ProductTypeListComponent],
   imports: [
@@ -20,7 +16,6 @@ import { ModalModule } from '../../shared/modal/modal.module';
     ThemeModule,
     NbCardModule,
     UsageTableModule,
-    ModalModule,
   ]
 })
 export class ProductTypeModule { }

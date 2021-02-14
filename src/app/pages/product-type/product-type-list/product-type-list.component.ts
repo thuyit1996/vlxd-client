@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { DestroyableDirective } from '../../../shared/directive/destroyable.directive';
-import { modalAction$ } from '../../../shared/modal/moda.helper';
 import { AlertService } from '../../../shared/services/alert.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { UrlService } from '../../../shared/services/url.service';
@@ -45,7 +43,7 @@ export class ProductTypeListComponent extends DestroyableDirective implements On
   $productTypeList_changeBaseSetting() {
     let pager = {};
     if (window.innerWidth > MAX_WIDTH_MOBILE) {
-      pager = { perPage: DISPLAY_TABLE_PER_PAGE.DESKTOP };
+      pager = { perPage: DISPLAY_TABLE_PER_PAGE.DESKTOP }
     } else {
       pager = { perPage: DISPLAY_TABLE_PER_PAGE.MOBILE };
     }
@@ -64,9 +62,7 @@ export class ProductTypeListComponent extends DestroyableDirective implements On
         }
       })
     })
-
   }
-
 
   async $productTypeList_deleteRow(rowId: string) {
     const callBackConfirm = await this.alertService.confirm(MESSAGE_CONFIRM);
@@ -89,9 +85,8 @@ export class ProductTypeListComponent extends DestroyableDirective implements On
     }
   }
 
-  async $productTypeList_editRow(rowId: string) {
+  $productTypeList_editRow(rowId: string) {
     this.modalActionType = MODAL_ACTION_TYPE.EDIT;
     this.modalHeader = 'Sửa sản phẩm';
-    modalAction$.next(true);
   }
 }
