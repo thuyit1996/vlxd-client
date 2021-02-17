@@ -3,9 +3,11 @@ import { takeUntil } from 'rxjs/operators';
 import { DestroyableDirective } from '../../../shared/directive/destroyable.directive';
 import { AlertService } from '../../../shared/services/alert.service';
 import { ApiService } from '../../../shared/services/api.service';
+import { ModalService } from '../../../shared/services/modal.service';
 import { UrlService } from '../../../shared/services/url.service';
 import { DISPLAY_TABLE_PER_PAGE, MAX_WIDTH_MOBILE, MODAL_ACTION_TYPE } from '../../../utils/constant';
 import { Price } from '../../../utils/price';
+import { AddProductComponent } from '../add-product/add-product.component';
 import { productTypeSetting, TABLE_NAME, MESSAGE_CONFIRM } from './product-type-list.helper';
 
 interface ITable {
@@ -27,7 +29,8 @@ export class ProductTypeListComponent extends DestroyableDirective implements On
   constructor(
     private readonly apiService: ApiService,
     private readonly urlService: UrlService,
-    private readonly alertService: AlertService
+    private readonly alertService: AlertService,
+    private readonly modalService: ModalService,
   ) {
     super();
     this.tableName = TABLE_NAME;
@@ -88,5 +91,8 @@ export class ProductTypeListComponent extends DestroyableDirective implements On
   $productTypeList_editRow(rowId: string) {
     this.modalActionType = MODAL_ACTION_TYPE.EDIT;
     this.modalHeader = 'Sửa sản phẩm';
+    this.modalService.openModal(AddProductComponent, {
+      size: 'lg',
+    }, { modalHeader: this.modalHeader, modalActionType: this.modalActionType }).then()
   }
 }
