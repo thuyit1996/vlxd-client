@@ -1,5 +1,6 @@
 import { ajax } from "rxjs/ajax";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
+
 const API_METHOD = {
   GET: "GET",
   POST: "POST",
@@ -8,6 +9,13 @@ const API_METHOD = {
   DELETE: "DELETE"
 };
 export class ApiService {
+  handleSuccess = (response) => {
+    if (response.response && response.status >= 200 && response.status < 300) {
+      return response.response;
+    } else {
+      return null;
+    }
+  }
   handleError = response => {
     return response?.error?.message || "Có lỗi xảy ra, vui lòng thử lại sau";
   };
@@ -18,7 +26,7 @@ export class ApiService {
       method,
       url,
       body
-    }).pipe(catchError(this.handleError));
+    }).pipe(map(this.handleSuccess),catchError(this.handleError));
   };
 
   doGetApi = url => {

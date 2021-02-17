@@ -1,22 +1,41 @@
-<template><Widget17 /></template>
+<template><ProductList /></template>
 
 <script>
-import Widget17 from "../../partials/widgets/Widget17";
+import { bufferCount, tap, toArray } from "rxjs/operators";
 import { ApiService } from "../../../services/api.service";
+import { from } from "rxjs";
 import { URL } from "../../../services/url.service";
+import ProductList from "./ProductList.vue";
+const DISPLAY_PRODUCT_PER_ROW = 4;
 export default {
   components: {
-    Widget17,
+    ProductList,
   },
   name: "product",
   data() {
     return {
-      isActive: false,
+      productList: [],
+      isLoading: false,
     };
   },
   mounted() {
-    const apiService = new ApiService();
-    apiService.doGetApi(URL.PRODUCT.GET_ALL).subscribe(console.log);
+    this.getProduct();
+  },
+  methods: {
+    getProduct() {
+      this.isLoading = true;
+      const apiService = new ApiService();
+      apiService.doGetApi(URL.PRODUCT.GET_ALL).subscribe((res) => {
+        let data = res.data || [];
+        from(data)
+          .pipe(
+            bufferCount(DISPLAY_PRODUCT_PER_ROW),
+            toArray(),
+            tap(() => (this.isLoading = false))
+          )
+          .subscribe((res) => (this.productList = res || []));
+      });
+    },
   },
 };
 </script>
