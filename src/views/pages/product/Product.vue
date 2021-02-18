@@ -1,12 +1,19 @@
-<template><ProductList /></template>
+<template>
+  <v-app>
+    <v-skeleton-loader
+      v-if="isLoading"
+      :loading="isLoading"
+      type="table"
+      :rows="10"
+    ></v-skeleton-loader>
+    <product-list v-else />
+  </v-app>
+</template>
 
 <script>
-import { bufferCount, tap, toArray } from "rxjs/operators";
 import { ApiService } from "../../../services/api.service";
-import { from } from "rxjs";
 import { URL } from "../../../services/url.service";
 import ProductList from "./ProductList.vue";
-const DISPLAY_PRODUCT_PER_ROW = 4;
 export default {
   components: {
     ProductList,
@@ -26,14 +33,8 @@ export default {
       this.isLoading = true;
       const apiService = new ApiService();
       apiService.doGetApi(URL.PRODUCT.GET_ALL).subscribe((res) => {
-        let data = res.data || [];
-        from(data)
-          .pipe(
-            bufferCount(DISPLAY_PRODUCT_PER_ROW),
-            toArray(),
-            tap(() => (this.isLoading = false))
-          )
-          .subscribe((res) => (this.productList = res || []));
+        this.isLoading = false;
+        this.productList = res?.data || [];
       });
     },
   },

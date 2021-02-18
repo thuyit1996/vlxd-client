@@ -9,6 +9,7 @@ const API_METHOD = {
   DELETE: "DELETE"
 };
 export class ApiService {
+
   handleSuccess = (response) => {
     if (response.response && response.status >= 200 && response.status < 300) {
       return response.response;
@@ -16,12 +17,13 @@ export class ApiService {
       return null;
     }
   }
+
   handleError = response => {
     return response?.error?.message || "Có lỗi xảy ra, vui lòng thử lại sau";
   };
 
   callApiHandle = (path, method, body = {}) => {
-    const url = "http://localhost:3100" + path;
+    const url = "http://localhost:3200" + path;
     return ajax({
       method,
       url,

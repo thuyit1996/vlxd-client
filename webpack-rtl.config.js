@@ -6,6 +6,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WebpackRTLPlugin = require("webpack-rtl-plugin");
 const WebpackMessages = require("webpack-messages");
+const webpack = require('webpack');
 const del = require("del");
 
 // theme name
@@ -24,6 +25,7 @@ const entries = {
 })();
 
 const mainConfig = function() {
+  console.log(process.env.NODE_ENV);
   return {
     mode: "development",
     stats: "errors-only",
@@ -50,6 +52,11 @@ const mainConfig = function() {
       }),
       new WebpackRTLPlugin({
         filename: "[name].rtl.css"
+      }),
+      new webpack.DefinePlugin({
+        'process.env' : {
+          API_ENDPOINT: '"http://localhost:3100"'
+        }
       }),
       {
         apply: compiler => {
