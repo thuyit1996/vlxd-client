@@ -393,7 +393,7 @@
         "page": "builder"
       },
       {
-        "title" : "San pham",
+        "title" : "Sản phẩm",
         "root" : true,
         "icon": "flaticon2-expand",
         "page" : "product"
