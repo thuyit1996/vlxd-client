@@ -2,7 +2,10 @@
   <v-app class="product">
     <div class="row">
       <div class="col-md-3 add-padding">
-        <SearchProductType v-on:filterItem="filterItem($event)" />
+        <SearchProductType
+          v-on:filterItem="filterItem($event)"
+          :totalProduct="totalProduct"
+        />
       </div>
       <div class="col-md-9 add-padding">
         <v-skeleton-loader
@@ -34,6 +37,7 @@ export default {
       productList: [],
       tempProductList: [],
       isLoading: false,
+      totalProduct: 0,
     };
   },
   mounted() {
@@ -47,6 +51,7 @@ export default {
         this.isLoading = false;
         this.productList = res?.data || [];
         this.tempProductList = res?.data || [];
+        this.totalProduct = res?.data.length;
       });
     },
     filterItem(event) {
@@ -54,11 +59,9 @@ export default {
       if (event === allData) {
         this.productList = this.tempProductList;
       } else {
-        console.log('here');
         this.productList = this.tempProductList.filter(
           (item) => item.productType === event
         );
-        console.log(this.productList);
       }
     },
   },

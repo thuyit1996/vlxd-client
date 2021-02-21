@@ -24,9 +24,9 @@ const entries = {
   await del.sync(distPath + "/css", { force: true });
 })();
 
-const mainConfig = function() {
-  console.log(process.env.NODE_ENV);
+const mainConfig = function () {
   return {
+    lintOnSave: false,
     mode: "development",
     stats: "errors-only",
     performance: {
@@ -54,7 +54,7 @@ const mainConfig = function() {
         filename: "[name].rtl.css"
       }),
       new webpack.DefinePlugin({
-        'process.env' : {
+        'process.env': {
           API_ENDPOINT: '"http://localhost:3100"'
         }
       }),
@@ -96,6 +96,6 @@ const mainConfig = function() {
   };
 };
 
-module.exports = function() {
+module.exports = function () {
   return [mainConfig()];
 };

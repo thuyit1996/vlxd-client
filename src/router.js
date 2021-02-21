@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/dashboard",
+      redirect: "/product",
       component: () => import("@/views/theme/Base"),
       children: [
         {

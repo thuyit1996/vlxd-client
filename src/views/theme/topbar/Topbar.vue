@@ -146,7 +146,9 @@
       >
         <div class="kt-header__topbar-user">
           <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
-          <span class="kt-header__topbar-username kt-hidden-mobile">Sean</span>
+          <span class="kt-header__topbar-username kt-hidden-mobile"
+            >Vũ Thủy</span
+          >
           <img
             class="kt-hidden"
             alt="Pic"
@@ -185,7 +187,7 @@ export default {
   data() {
     return {
       languageFlag: "",
-      languages: i18nService.languages
+      languages: i18nService.languages,
     };
   },
   components: {
@@ -194,19 +196,19 @@ export default {
     KTDropdownQuickAction,
     KTDropdownMyCart,
     KTDropdownLanguage,
-    KTDropdownUser
+    KTDropdownUser,
   },
   methods: {
     onLanguageChanged() {
-      this.languageFlag = this.languages.find(val => {
+      this.languageFlag = this.languages.find((val) => {
         return val.lang === i18nService.getActiveLanguage();
       }).flag;
-    }
+    },
   },
   computed: {
     getLanguageFlag() {
       return this.onLanguageChanged();
-    }
-  }
+    },
+  },
 };
 </script>

@@ -13,7 +13,7 @@ export const headersConfig = [
   { text: "Giá bán", value: "newExportPrice", class: "blue lighten-5" },
 ];
 
-function padLeft(str, length, paddingCharacter) {
+export function padLeft(str, length, paddingCharacter) {
   str = "" + str;
 
   while (str.length < length) {

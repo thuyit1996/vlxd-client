@@ -7,11 +7,14 @@
           :key="type.id"
           v-bind:class="['add-point', { active: type.isActive }]"
           @click="activeItem(type.id)"
-          >{{ type.title }}</b-list-group-item
         >
+          <span>{{ type.title }}</span>
+          <span v-if="type.id === 0" class="all-product-count">{{
+            totalProduct
+          }}</span>
+        </b-list-group-item>
       </b-list-group>
     </template>
-    <template v-slot:html> </template>
   </KTCodePreview>
 </template>
 
@@ -29,6 +32,9 @@ export default {
   name: "SearchProductType",
   components: {
     KTCodePreview,
+  },
+  props: {
+    totalProduct: Number,
   },
   data() {
     return {
@@ -59,6 +65,9 @@ export default {
   }
   .add-point {
     cursor: pointer;
+  }
+  .all-product-count {
+    float: right;
   }
 }
 </style>
