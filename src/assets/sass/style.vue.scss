@@ -2,9 +2,6 @@
 // Main Stylesheet
 //
 
-
-
-
 ////////////////////////////////////////////////////////////////
 ///////////// DO NOT MODIFY BELOW INCLUDE ORDER ////////////////
 ////////////////////////////////////////////////////////////////
@@ -35,7 +32,6 @@
 @import "global/layout/aside/config";
 @import "global/layout/footer/config";
 
-
 // 5: Layout includes
 @import "global/layout/base/base";
 @import "global/layout/header/header";
@@ -56,15 +52,15 @@
 
 // }
 
-.v-data-table>.v-data-table__wrapper>table>tbody>tr>th,
-.v-data-table>.v-data-table__wrapper>table>thead>tr>th,
-.v-data-table>.v-data-table__wrapper>table>tfoot>tr>th {
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
   font-size: 1.123rem !important;
 }
 
-.v-data-table>.v-data-table__wrapper>table>tbody>tr>td,
-.v-data-table>.v-data-table__wrapper>table>thead>tr>td,
-.v-data-table>.v-data-table__wrapper>table>tfoot>tr>td {
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
   font-size: 1.1rem !important;
 }
 
@@ -106,7 +102,26 @@
   max-width: 9.8% !important;
 }
 
-.v-skeleton-loader__text {}
+.v-skeleton-loader__text {
+}
+
+.list-group-item.active {
+  background-color: #078b64;
+  border-color: #078b64;
+}
+
+.v-data-table__wrapper > table > tbody > tr :hover {
+  cursor: pointer;
+}
+
+.v-data-footer__select,
+.v-data-footer__pagination {
+  font-size: 1.1rem;
+}
+
+.v-select__selection--comma {
+  font-size: 1rem !important;
+}
 
 @media screen and (max-width: 767px) {
   .v-skeleton-loader__table-tbody .v-skeleton-loader__table-cell {

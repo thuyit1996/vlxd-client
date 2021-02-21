@@ -3,28 +3,29 @@
     <div class="row">
       <div class="col-md-3 add-padding">
         <SearchProductType
-          v-on:filterItem="filterItem($event)"
-          :totalProduct="totalProduct"
+            v-on:filterItem="filterItem($event)"
+            :totalProduct="totalProduct"
         />
       </div>
       <div class="col-md-9 add-padding">
         <v-skeleton-loader
-          v-if="isLoading"
-          :loading="isLoading"
-          type="table"
-          :rows="10"
+            v-if="isLoading"
+            :loading="isLoading"
+            type="table"
+            :rows="10"
         ></v-skeleton-loader>
-        <ProductList v-else v-bind:productListData="productList" />
+        <ProductList v-else v-bind:productListData="productList"/>
       </div>
     </div>
   </v-app>
 </template>
 
 <script>
-import { ApiService } from "../../../services/api.service";
-import { URL } from "../../../services/url.service";
+import {ApiService} from "../../../services/api.service";
+import {URL} from "../../../services/url.service";
 import ProductList from "./ProductList.vue";
 import SearchProductType from "./SearchProductType.vue";
+import {PRODUCT_EVENT} from "@/views/pages/product/Product.helper";
 
 export default {
   components: {
@@ -38,10 +39,12 @@ export default {
       tempProductList: [],
       isLoading: false,
       totalProduct: 0,
+      showModalDetail: false,
     };
   },
   mounted() {
     this.getProduct();
+    this.getProductAgain();
   },
   methods: {
     getProduct() {
@@ -60,9 +63,14 @@ export default {
         this.productList = this.tempProductList;
       } else {
         this.productList = this.tempProductList.filter(
-          (item) => item.productType === event
+            (item) => item.productType === event
         );
       }
+    },
+    getProductAgain() {
+      this.$root.$on(PRODUCT_EVENT.GET_PRODUCT_AGAIN, () => {
+        this.getProduct();
+      })
     },
   },
 };

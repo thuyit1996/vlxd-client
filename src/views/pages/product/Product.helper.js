@@ -6,11 +6,11 @@ export const headersConfig = [
     value: "key",
     class: "blue lighten-5",
   },
-  { text: "Tên hàng", value: "productName", class: "blue lighten-5" },
-  { text: "Đơn vị", value: "unit", class: "blue lighten-5" },
-  { text: "Nhóm hàng", value: "productType", class: "blue lighten-5" },
-  { text: "Giá vốn", value: "newImportPrice", class: "blue lighten-5" },
-  { text: "Giá bán", value: "newExportPrice", class: "blue lighten-5" },
+  {text: "Tên hàng", value: "productName", class: "blue lighten-5"},
+  {text: "Đơn vị", value: "unit", class: "blue lighten-5"},
+  {text: "Nhóm hàng", value: "productType", class: "blue lighten-5"},
+  {text: "Giá vốn", value: "newImportPrice", class: "blue lighten-5"},
+  {text: "Giá bán", value: "newExportPrice", class: "blue lighten-5"},
 ];
 
 export function padLeft(str, length, paddingCharacter) {
@@ -25,7 +25,7 @@ export function padLeft(str, length, paddingCharacter) {
 
 export function formatPrice(price) {
   let newPrice = Number(price);
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(newPrice)
+  return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(newPrice)
 }
 
 export function formatProductList(productList) {
@@ -43,4 +43,16 @@ export function formatProductList(productList) {
   } else {
     return []
   }
+}
+
+export const PRODUCT_EVENT = {
+  GET_PRODUCT_AGAIN: 'getProductAgain',
+}
+
+export const PRODUCT_TYPES = {
+  SAT_THEP: 'Sắt thép',
+  XI_MANG: 'Xi măng',
+  DINH: 'Đinh',
+  DAY_BUOC: 'Dây buôc',
+  SAT_DAI: 'Sắt đai'
 }

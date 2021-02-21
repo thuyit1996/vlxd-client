@@ -1,5 +1,6 @@
 <template>
-  <v-text-field :label="label" :value="valueInput" @keydown="inputNumberOnly" @keyup="onKeyUp"></v-text-field>
+  <v-text-field :label="label" v-model="valueInput" @keydown="inputNumberOnly" @keyup="onKeyUp"
+  ></v-text-field>
 </template>
 
 <script>
@@ -8,14 +9,22 @@ function reverseString(str) {
   return str.split("").reverse().join("");
 }
 
+function sanitizeNumber(number) {
+  return parseFloat(number.toString().split(',').join(''));
+}
+
 export default {
   name: "InputPrice",
   props: {
     label: String,
-    valueInput: String,
+    name: String,
+  },
+  data() {
+    return {
+      valueInput: ''
+    }
   },
   methods: {
-
     inputNumberOnly(event) {
       let keyCode = event.keyCode;
       if (event.shiftKey) {
@@ -64,6 +73,12 @@ export default {
         }
         this.valueInput = returnString;
       }
+      this.$nextTick(() => {
+        this.$emit('getValueInput', {
+          name: this.name,
+          value: sanitizeNumber(this.valueInput),
+        })
+      })
     },
   }
 };

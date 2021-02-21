@@ -3,15 +3,7 @@
     <v-card>
       <v-card-title class="headline">{{ modalHeader }}</v-card-title>
       <slot></slot>
-      <v-card-actions>
-        <v-spacer></v-spacer>
 
-        <v-btn color="green darken-1" text @click="closeModal">
-          Hủy
-        </v-btn>
-
-        <v-btn color="green darken-1" text @click="closeModal">Đồng ý</v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -29,9 +21,9 @@ export default {
     };
   },
   methods: {
-    closeModal() {
-      this.$emit("closeModal", false);
-    },
+    // closeModal() {
+    //   this.$emit("closeModal", false);
+    // },
   },
 };
 </script>
