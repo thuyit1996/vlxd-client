@@ -90,6 +90,7 @@
                   class="mr-3"
                   :pressed="true"
                   variant="success"
+                  @click="isEditProduct=true"
               ><img
                   svg-inline
                   class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md"
@@ -97,6 +98,13 @@
                   alt=""
               />Cập nhật
               </b-button>
+              <basic-modal
+                  v-bind:isOpenModal="isEditProduct"
+                  @closeModal="closeModalEdit"
+                  v-bind:modalHeader="'Sửa sản phẩm'"
+              >
+                <add-product @closeModal="closeModalEdit" :isEdit="true" :productDetail="rowData"/>
+              </basic-modal>
               <b-button
                   class="mr-3"
                   :pressed="true"
@@ -124,9 +132,15 @@ import {PRODUCT_EVENT, PRODUCT_TYPES} from './Product.helper';
 import {ApiService} from "@/services/api.service";
 import {AlertService} from "@/services/aleart.service";
 import {URL} from "@/services/url.service";
+import BasicModal from "../../partials/modal/BasicModal.vue";
+import AddProduct from "./AddProduct.vue";
 
 export default {
   name: 'ProductDetail',
+  components: {
+    BasicModal,
+    AddProduct
+  },
   props: {isShowDetail: Boolean, rowClickData: Object},
   data() {
     return {
@@ -136,12 +150,14 @@ export default {
       isRestoreProduct: false,
       isDisableRemove: false,
       isUpdateProduct: false,
+      isEditProduct: false,
     }
   },
   mounted() {
 
   },
   methods: {
+
     closeModalDetail() {
       this.$emit('closeModalDetail', false);
       if (this.isUpdateProduct) {
@@ -150,6 +166,11 @@ export default {
         }, 200)
       }
     },
+
+    closeModalEdit(event) {
+      this.isEditProduct = event;
+    },
+
     getProductImage() {
       if (this.rowData) {
         if (this.rowData.productType === PRODUCT_TYPES.SAT_THEP) {
@@ -168,6 +189,7 @@ export default {
       }
       return "https://i.ibb.co/Thx7rBH/default.png";
     },
+
     async deleteProduct() {
       let callBackModal = await this.alertService.confirm('Bạn có muốn xóa sản phẩm này không? ');
       if (callBackModal.value) {
@@ -209,7 +231,6 @@ export default {
   watch: {
     rowClickData: function (row) {
       this.rowData = row;
-      console.log(row);
     }
   }
 }

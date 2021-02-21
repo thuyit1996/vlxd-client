@@ -11,13 +11,15 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
-            <input-price :label="'Giá vốn'" :name="'inputImportPrice'" @getValueInput="getValueInput"/>
+            <input-price :label="'Giá vốn'" :name="'inputImportPrice'" :value="inputImportPrice"
+                         @getValueInput="getValueInput"/>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field label="Tên sản phẩm *" v-model="productName"></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
-            <input-price :label="'Giá bán'" :name="'inputExportPrice'" @getValueInput="getValueInput"/>
+            <input-price :label="'Giá bán'" :name="'inputExportPrice'" :value="inputExportPrice"
+                         @getValueInput="getValueInput"/>
           </v-col>
           <v-col cols="12" sm="6">
             <v-select :items="unitOptions" label="Đơn vị *" v-model="unit"></v-select>
@@ -54,6 +56,10 @@ export default {
   components: {
     InputPrice,
   },
+  props: {
+    isEdit: Boolean,
+    productDetail: Object,
+  },
   data() {
     return {
       unitOptions: ["Kg", "Cây", "Tấn"],
@@ -71,6 +77,7 @@ export default {
   },
   mounted() {
     this.getLatestProduct();
+    this.initialProduct();
   },
   computed: {
     isDisabled: function () {
@@ -78,12 +85,28 @@ export default {
     }
   },
   methods: {
+    // INFO: initial form for update product
+    initialProduct() {
+      if (this.isEdit) {
+        this.productKey = this.productDetail.key;
+        this.description = this.productDetail?.description || '';
+        this.productName = this.productDetail?.productName || '';
+        this.productType = this.productDetail?.productType || '';
+        this.unit = this.productDetail?.unit || '';
+        setTimeout(() => {
+          this.inputImportPrice = this.productDetail.importPrice;
+          this.inputExportPrice = this.productDetail.exportPrice;
+        }, 200)
+      }
+    },
     getLatestProduct() {
-      this.apiService.doGetApi(URL.PRODUCT.GET_LATEST_PRODUCT).subscribe((res) => {
-        if (res.data) {
-          this.productKey = "SP" + padLeft(res.data.productKey + 1, 5, "0");
-        }
-      });
+      if (!this.isEdit) {
+        this.apiService.doGetApi(URL.PRODUCT.GET_LATEST_PRODUCT).subscribe((res) => {
+          if (res.data) {
+            this.productKey = "SP" + padLeft(res.data.productKey + 1, 5, "0");
+          }
+        });
+      }
     },
     closeModal() {
       this.$emit('closeModal', false)
@@ -111,6 +134,12 @@ export default {
       this.$root.$emit(PRODUCT_EVENT.GET_PRODUCT_AGAIN);
     }
   },
+  watch: {
+    productDetail: function (val) {
+      console.log(val);
+    }
+  }
+
 };
 </script>
 

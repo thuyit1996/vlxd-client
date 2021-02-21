@@ -11,6 +11,36 @@ function reverseString(str) {
 
 function sanitizeNumber(number) {
   return parseFloat(number.toString().split(',').join(''));
+
+}
+
+function addSemiColon(value) {
+  let sanitizeValue = value.toString();
+  if (value[0] === '-') {
+    sanitizeValue = value.split('-')[1];
+  }
+  let decimal = sanitizeValue.split('.')[0];
+  let floatNum = sanitizeValue.split('.')[1];
+  let newDecimal = '';
+  if (decimal && decimal.length > 3) {
+    decimal = decimal.split(',').join('');
+    for (let index = decimal.length; index--; index > -1) {
+      newDecimal += decimal[index];
+      if ((decimal.length - index) % 3 === 0 && 0 !== index) {
+        newDecimal += ",";
+      }
+    }
+    let returnString = '';
+    returnString = reverseString(newDecimal);
+    if (floatNum !== undefined) {
+      returnString += '.' + floatNum.toString();
+    }
+    if (value[0] === '-') {
+      returnString = '-' + returnString;
+    }
+    return returnString;
+  }
+  return value;
 }
 
 export default {
@@ -18,10 +48,11 @@ export default {
   props: {
     label: String,
     name: String,
+    value : String,
   },
   data() {
     return {
-      valueInput: ''
+      valueInput: '',
     }
   },
   methods: {
@@ -54,6 +85,7 @@ export default {
       this.transformValueInput(event);
     },
 
+
     transformValueInput(event) {
       let decimal = event.target.value.split('.')[0];
       let floatNum = event.target.value.split('.')[1];
@@ -80,6 +112,11 @@ export default {
         })
       })
     },
+  },
+  watch: {
+    value: function (val) {
+      this.valueInput = addSemiColon(val);
+    }
   }
 };
 </script>
