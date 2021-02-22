@@ -1,44 +1,56 @@
 <template>
-  <v-text-field :label="label" v-model="valueInput" @keydown="inputNumberOnly" @keyup="onKeyUp"
+  <v-text-field
+    :label="label"
+    v-model="valueInput"
+    @keydown="inputNumberOnly"
+    @keyup="onKeyUp"
   ></v-text-field>
 </template>
 
 <script>
-
 function reverseString(str) {
-  return str.split("").reverse().join("");
+  return str
+    .split("")
+    .reverse()
+    .join("");
 }
 
 function sanitizeNumber(number) {
-  return parseFloat(number.toString().split(',').join(''));
-
+  return parseFloat(
+    number
+      .toString()
+      .split(",")
+      .join("")
+  );
 }
 
 function addSemiColon(value) {
-  let sanitizeValue = value.toString();
-  if (value[0] === '-') {
-    sanitizeValue = value.split('-')[1];
-  }
-  let decimal = sanitizeValue.split('.')[0];
-  let floatNum = sanitizeValue.split('.')[1];
-  let newDecimal = '';
-  if (decimal && decimal.length > 3) {
-    decimal = decimal.split(',').join('');
-    for (let index = decimal.length; index--; index > -1) {
-      newDecimal += decimal[index];
-      if ((decimal.length - index) % 3 === 0 && 0 !== index) {
-        newDecimal += ",";
+  if (value) {
+    let sanitizeValue = value.toString();
+    if (value[0] === "-") {
+      sanitizeValue = value.split("-")[1];
+    }
+    let decimal = sanitizeValue.split(".")[0];
+    let floatNum = sanitizeValue.split(".")[1];
+    let newDecimal = "";
+    if (decimal && decimal.length > 3) {
+      decimal = decimal.split(",").join("");
+      for (let index = decimal.length; index--; index > -1) {
+        newDecimal += decimal[index];
+        if ((decimal.length - index) % 3 === 0 && 0 !== index) {
+          newDecimal += ",";
+        }
       }
-    }
-    let returnString = '';
-    returnString = reverseString(newDecimal);
-    if (floatNum !== undefined) {
-      returnString += '.' + floatNum.toString();
-    }
-    if (value[0] === '-') {
-      returnString = '-' + returnString;
-    }
-    return returnString;
+      let returnString = "";
+      returnString = reverseString(newDecimal);
+      if (floatNum !== undefined) {
+        returnString += "." + floatNum.toString();
+      }
+      if (value[0] === "-") {
+        returnString = "-" + returnString;
+      }
+      return returnString;
+    } else return "";
   }
   return value;
 }
@@ -48,12 +60,12 @@ export default {
   props: {
     label: String,
     name: String,
-    value : String,
+    value: String
   },
   data() {
     return {
-      valueInput: '',
-    }
+      valueInput: ""
+    };
   },
   methods: {
     inputNumberOnly(event) {
@@ -62,64 +74,77 @@ export default {
         event.preventDefault();
         return;
       }
-      if ((keyCode !== 9 && keyCode !== 8 && keyCode !== 37 && keyCode !== 39 && keyCode !== 190 && keyCode !== 110) && (48 > keyCode || 57 < keyCode) && (105 < keyCode || 96 > keyCode)) {
+      if (
+        keyCode !== 9 &&
+        keyCode !== 8 &&
+        keyCode !== 37 &&
+        keyCode !== 39 &&
+        keyCode !== 190 &&
+        keyCode !== 110 &&
+        (48 > keyCode || 57 < keyCode) &&
+        (105 < keyCode || 96 > keyCode)
+      ) {
         event.preventDefault();
         return;
       }
-      if ((keyCode === 190 || keyCode === 110) && event.target.value.indexOf('.') >= 0) {
+      if (
+        (keyCode === 190 || keyCode === 110) &&
+        event.target.value.indexOf(".") >= 0
+      ) {
         event.preventDefault();
         return;
       }
-      if (event.target.value.split('.')[1]?.length > 1 && ((48 <= keyCode && 57 >= keyCode) || (96 <= keyCode && 105 >= keyCode))) {
+      if (
+        event.target.value.split(".")[1]?.length > 1 &&
+        ((48 <= keyCode && 57 >= keyCode) || (96 <= keyCode && 105 >= keyCode))
+      ) {
         event.preventDefault();
         return;
       }
     },
 
     onKeyUp(event) {
-      if (event.target.value[0] === '0') {
-        if (event.target.value.length >= 2 && event.target.value[1] != '.') {
+      if (event.target.value[0] === "0") {
+        if (event.target.value.length >= 2 && event.target.value[1] != ".") {
           this.valueInput = event.target.value.slice(1);
         }
       }
       this.transformValueInput(event);
     },
 
-
     transformValueInput(event) {
-      let decimal = event.target.value.split('.')[0];
-      let floatNum = event.target.value.split('.')[1];
-      let newDecimal = '';
+      let decimal = event.target.value.split(".")[0];
+      let floatNum = event.target.value.split(".")[1];
+      let newDecimal = "";
       if (decimal && decimal.length > 3) {
-        decimal = decimal.split(',').join('');
+        decimal = decimal.split(",").join("");
         for (let index = decimal.length; index--; index > -1) {
           newDecimal += decimal[index];
           if ((decimal.length - index) % 3 === 0 && 0 !== index) {
             newDecimal += ",";
           }
         }
-        let returnString = '';
+        let returnString = "";
         returnString = reverseString(newDecimal);
         if (floatNum !== undefined) {
-          returnString += '.' + floatNum.toString();
+          returnString += "." + floatNum.toString();
         }
         this.valueInput = returnString;
       }
       this.$nextTick(() => {
-        this.$emit('getValueInput', {
+        this.$emit("getValueInput", {
           name: this.name,
-          value: sanitizeNumber(this.valueInput),
-        })
-      })
-    },
+          value: sanitizeNumber(this.valueInput)
+        });
+      });
+    }
   },
   watch: {
-    value: function (val) {
+    value: function(val) {
       this.valueInput = addSemiColon(val);
     }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

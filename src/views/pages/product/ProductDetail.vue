@@ -1,10 +1,10 @@
 <template>
   <v-dialog
-      v-model="isShowDetail"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-      class="product-detail-modal"
+    v-model="isShowDetail"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+    class="product-detail-modal"
   >
     <v-card>
       <v-toolbar dark color="success">
@@ -18,9 +18,11 @@
         <v-row>
           <v-col cols="12" md="4">
             <v-list three-line subheader>
-              <v-subheader class="product-name">{{ rowClickData.productName || '' }}</v-subheader>
+              <v-subheader class="product-name">{{
+                rowClickData.productName || ""
+              }}</v-subheader>
               <v-list-item>
-                <img :src="getProductImage()" class="product-image">
+                <img :src="getProductImage()" class="product-image" />
               </v-list-item>
             </v-list>
           </v-col>
@@ -30,7 +32,7 @@
                 <v-list-item-content>
                   <v-list-item-title>Mã sản phẩm</v-list-item-title>
                   <v-list-item-subtitle
-                  >{{ rowClickData.key }}
+                    >{{ rowClickData.key }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -39,7 +41,7 @@
                 <v-list-item-content>
                   <v-list-item-title>Nhóm hàng</v-list-item-title>
                   <v-list-item-subtitle
-                  >{{ rowClickData.productType || '' }}
+                    >{{ rowClickData.productType || "" }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -48,7 +50,7 @@
                 <v-list-item-content>
                   <v-list-item-title>Đơn vị</v-list-item-title>
                   <v-list-item-subtitle
-                  >{{ rowClickData.unit || '' }}
+                    >{{ rowClickData.unit || "" }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -57,7 +59,7 @@
                 <v-list-item-content>
                   <v-list-item-title>Giá vốn</v-list-item-title>
                   <v-list-item-subtitle
-                  >{{ rowClickData.newImportPrice || '' }}
+                    >{{ rowClickData.newImportPrice || "" }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -66,57 +68,61 @@
                 <v-list-item-content>
                   <v-list-item-title>Giá bán</v-list-item-title>
                   <v-list-item-subtitle
-                  >{{ rowClickData.newExportPrice || '' }}
+                    >{{ rowClickData.newExportPrice || "" }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
             <div class="button-action">
-
               <b-button
-                  class="mr-3"
-                  :pressed="true"
-                  variant="danger"
-                  @click="deleteProduct"
-                  :disabled="isDisableRemove"
-              ><img
+                class="mr-3"
+                :pressed="true"
+                variant="danger"
+                @click="deleteProduct"
+                :disabled="isDisableRemove"
+                ><img
                   svg-inline
                   class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md"
                   src="@/assets/media/icons/svg/Files/Deleted-file.svg"
                   alt=""
-              />Xóa
+                />Xóa
               </b-button>
               <b-button
-                  class="mr-3"
-                  :pressed="true"
-                  variant="success"
-                  @click="isEditProduct=true"
-              ><img
+                class="mr-3"
+                :pressed="true"
+                variant="success"
+                @click="openEditProduct"
+                ><img
                   svg-inline
                   class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md"
                   src="@/assets/media/icons/svg/Design/Edit.svg"
                   alt=""
-              />Cập nhật
+                />Cập nhật
               </b-button>
               <basic-modal
-                  v-bind:isOpenModal="isEditProduct"
-                  @closeModal="closeModalEdit"
-                  v-bind:modalHeader="'Sửa sản phẩm'"
+                v-bind:isOpenModal="isEditProduct"
+                @closeModal="closeModalEdit"
+                v-bind:modalHeader="'Sửa sản phẩm'"
               >
-                <add-product @closeModal="closeModalEdit" :isEdit="true" :productDetail="rowData"/>
+                <add-product
+                  @closeModal="closeModalEdit"
+                  :isEdit="true"
+                  :productDetail="rowData"
+                  :productId="productId"
+                />
               </basic-modal>
               <b-button
-                  class="mr-3"
-                  :pressed="true"
-                  variant="primary"
-                  v-if="isRestoreProduct"
-                  @click="restoreProduct"
-              ><img
+                class="mr-3"
+                :pressed="true"
+                variant="primary"
+                v-if="isRestoreProduct"
+                @click="restoreProduct"
+                ><img
                   svg-inline
                   class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md"
                   src="@/assets/media/icons/svg/Code/Time-schedule.svg"
                   alt=""
-              />Khôi phục
+                />Khôi phục
               </b-button>
             </div>
           </v-col>
@@ -128,20 +134,21 @@
 </template>
 
 <script>
-import {PRODUCT_EVENT, PRODUCT_TYPES} from './Product.helper';
-import {ApiService} from "@/services/api.service";
-import {AlertService} from "@/services/aleart.service";
-import {URL} from "@/services/url.service";
+import { PRODUCT_EVENT, PRODUCT_TYPES } from "./Product.helper";
+import { ApiService } from "@/services/api.service";
+import { AlertService } from "@/services/aleart.service";
+import { URL } from "@/services/url.service";
 import BasicModal from "../../partials/modal/BasicModal.vue";
 import AddProduct from "./AddProduct.vue";
+import { mapActions } from "vuex";
 
 export default {
-  name: 'ProductDetail',
+  name: "ProductDetail",
   components: {
     BasicModal,
     AddProduct
   },
-  props: {isShowDetail: Boolean, rowClickData: Object},
+  props: { isShowDetail: Boolean, rowClickData: Object },
   data() {
     return {
       rowData: null,
@@ -151,19 +158,18 @@ export default {
       isDisableRemove: false,
       isUpdateProduct: false,
       isEditProduct: false,
-    }
+      productId: ""
+    };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
-
+    ...mapActions("product", ["viewProductId"]),
     closeModalDetail() {
-      this.$emit('closeModalDetail', false);
+      this.$emit("closeModalDetail", false);
       if (this.isUpdateProduct) {
         setTimeout(() => {
           this.triggerGetProductList();
-        }, 200)
+        }, 200);
       }
     },
 
@@ -191,49 +197,62 @@ export default {
     },
 
     async deleteProduct() {
-      let callBackModal = await this.alertService.confirm('Bạn có muốn xóa sản phẩm này không? ');
+      let callBackModal = await this.alertService.confirm(
+        "Bạn có muốn xóa sản phẩm này không? "
+      );
       if (callBackModal.value) {
-        let url = URL.PRODUCT.DELETE_PRODUCT + `?productId=${this.rowClickData._id}`
-        this.apiService.doDeleteApi(url).subscribe((res) => {
-              this.alertService.showSuccess(res.message || '');
-              this.isRestoreProduct = true;
-              this.isDisableRemove = true;
-              this.isUpdateProduct = true;
-            },
-            error => this.alertService.showError(error.message || '')
-        )
+        let url =
+          URL.PRODUCT.DELETE_PRODUCT + `?productId=${this.rowClickData._id}`;
+        this.apiService.doDeleteApi(url).subscribe(
+          res => {
+            this.alertService.showSuccess(res.message || "");
+            this.isRestoreProduct = true;
+            this.isDisableRemove = true;
+            this.isUpdateProduct = true;
+          },
+          error => this.alertService.showError(error.message || "")
+        );
       } else {
         return;
       }
     },
 
     triggerGetProductList() {
-      this.$root.$emit(PRODUCT_EVENT.GET_PRODUCT_AGAIN)
+      this.$root.$emit(PRODUCT_EVENT.GET_PRODUCT_AGAIN);
     },
 
     async restoreProduct() {
-      let callBackModal = await this.alertService.confirm('Bạn có muốn khôi phục sản phẩm này không? ');
+      let callBackModal = await this.alertService.confirm(
+        "Bạn có muốn khôi phục sản phẩm này không? "
+      );
       if (callBackModal.value) {
-        let url = URL.PRODUCT.RESTORE_PRODUCT + `?productId=${this.rowClickData._id}`
-        this.apiService.doDeleteApi(url).subscribe((res) => {
-              this.alertService.showSuccess(res.message || '');
-              this.isRestoreProduct = false;
-              this.isDisableRemove = false;
-              this.isUpdateProduct = true;
-            },
-            error => this.alertService.showError(error.message || '')
-        )
+        let url =
+          URL.PRODUCT.RESTORE_PRODUCT + `?productId=${this.rowClickData._id}`;
+        this.apiService.doDeleteApi(url).subscribe(
+          res => {
+            this.alertService.showSuccess(res.message || "");
+            this.isRestoreProduct = false;
+            this.isDisableRemove = false;
+            this.isUpdateProduct = true;
+          },
+          error => this.alertService.showError(error.message || "")
+        );
       } else {
         return;
       }
+    },
+    openEditProduct() {
+      this.isEditProduct = true;
+      this.viewProductId(this.rowData._id);
     }
   },
   watch: {
-    rowClickData: function (row) {
+    rowClickData: function(row) {
       this.rowData = row;
+      console.log(this.rowData);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -260,7 +279,6 @@ export default {
 .v-list-item__subtitle {
   font-weight: 700;
   font-size: 1.1rem;
-
 }
 
 .v-divider {
