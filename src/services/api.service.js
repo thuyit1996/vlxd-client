@@ -23,7 +23,7 @@ export class ApiService {
   };
 
   callApiHandle = (path, method, body = {}) => {
-    const url = "http://localhost:3200" + path;
+    const url = "http://localhost:3100" + path;
     return ajax({
       method,
       url,

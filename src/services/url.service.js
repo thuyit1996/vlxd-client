@@ -5,5 +5,6 @@ export const URL = {
     ADD_PRODUCT: "/api/product-type/create",
     DELETE_PRODUCT: "/api/product-type/delete",
     RESTORE_PRODUCT: "/api/product-type/restore",
+    GET_PRODUCT_BY_ID : "/api/product-type/get-product"
   }
 };

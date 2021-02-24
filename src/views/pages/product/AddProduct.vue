@@ -70,7 +70,8 @@ import { URL } from "../../../services/url.service";
 import { padLeft, PRODUCT_EVENT } from "./Product.helper";
 import InputPrice from "../../partials/input-price/InputPrice.vue";
 import { AlertService } from "@/services/aleart.service";
-
+import {mapGetters} from "vuex";
+import {pluck} from 'rxjs/operators';
 export default {
   name: "AddProduct",
   components: {
@@ -78,8 +79,6 @@ export default {
   },
   props: {
     isEdit: Boolean,
-    productDetail: Object,
-    productId: String
   },
   data() {
     return {
@@ -107,23 +106,24 @@ export default {
     this.initialProduct();
   },
   computed: {
+    ...mapGetters(['productId']),
     isDisabled: function() {
       return !this.productType || !this.productName || !this.unit;
     }
   },
   methods: {
-    // INFO: initial form for update product
     initialProduct() {
       if (this.isEdit) {
-        this.productKey = this.productDetail.key;
-        this.description = this.productDetail?.description || "";
-        this.productName = this.productDetail?.productName || "";
-        this.productType = this.productDetail?.productType || "";
-        this.unit = this.productDetail?.unit || "";
-        setTimeout(() => {
-          this.inputImportPrice = this.productDetail.importPrice;
-          this.inputExportPrice = this.productDetail.exportPrice;
-        }, 200);
+        let url = URL.PRODUCT.GET_PRODUCT_BY_ID + `?productId=${this.productId}`;
+        this.apiService.doGetApi(url).pipe(pluck('data')).subscribe(res => {
+          this.productKey = 'SP' + padLeft(res.productKey, 5, '0');
+          this.description = res.description || '';
+          this.productName = res.productName || '';
+          this.productType = res.productType || '';
+          this.unit = res.unit || '';
+          this.inputImportPrice = res.importPrice || 0;
+          this.inputExportPrice = res.exportPrice || 0;
+        });
       }
     },
     getLatestProduct() {
@@ -165,11 +165,8 @@ export default {
       this.$root.$emit(PRODUCT_EVENT.GET_PRODUCT_AGAIN);
     }
   },
-  watch: {
-    productDetail: function(res) {
-      console.log(res);
-    },
-    productId: function(res) {
+  watch : {
+    productId : function(res){
       console.log(res);
     }
   }

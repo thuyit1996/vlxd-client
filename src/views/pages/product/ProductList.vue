@@ -65,6 +65,7 @@ import {removeSpecialCharacter} from "../../../shared/helper";
 import BasicModal from "../../partials/modal/BasicModal.vue";
 import AddProduct from "./AddProduct.vue";
 import ProductDetail from './ProductDetail.vue';
+import {VIEW_PRODUCT_ID} from "@/store/product.module";
 
 export default {
   name: "ProductList",
@@ -104,6 +105,7 @@ export default {
     handleRowClick(row) {
       this.isShowDetail = true;
       this.rowClickData = row;
+      this.$store.dispatch(VIEW_PRODUCT_ID, row._id);
     },
     closeModalDetail(event) {
       this.isShowDetail = event;

@@ -100,6 +100,7 @@
                 />Cập nhật
               </b-button>
               <basic-modal
+                  v-if="isEditProduct"
                 v-bind:isOpenModal="isEditProduct"
                 @closeModal="closeModalEdit"
                 v-bind:modalHeader="'Sửa sản phẩm'"
@@ -107,8 +108,6 @@
                 <add-product
                   @closeModal="closeModalEdit"
                   :isEdit="true"
-                  :productDetail="rowData"
-                  :productId="productId"
                 />
               </basic-modal>
               <b-button
@@ -140,7 +139,6 @@ import { AlertService } from "@/services/aleart.service";
 import { URL } from "@/services/url.service";
 import BasicModal from "../../partials/modal/BasicModal.vue";
 import AddProduct from "./AddProduct.vue";
-import { mapActions } from "vuex";
 
 export default {
   name: "ProductDetail",
@@ -158,12 +156,10 @@ export default {
       isDisableRemove: false,
       isUpdateProduct: false,
       isEditProduct: false,
-      productId: ""
     };
   },
   mounted() {},
   methods: {
-    ...mapActions("product", ["viewProductId"]),
     closeModalDetail() {
       this.$emit("closeModalDetail", false);
       if (this.isUpdateProduct) {
@@ -243,13 +239,11 @@ export default {
     },
     openEditProduct() {
       this.isEditProduct = true;
-      this.viewProductId(this.rowData._id);
     }
   },
   watch: {
     rowClickData: function(row) {
       this.rowData = row;
-      console.log(this.rowData);
     }
   }
 };
